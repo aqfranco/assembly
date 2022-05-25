@@ -30,7 +30,7 @@ krj:
     SHL  R1, 4         ; coloca linha no nibble high
     OR   R1, R0        ; junta coluna (nibble low)
     MOVB [R4], R1      ; escreve linha e coluna nos displays
-    JMP krj            ; repete ciclo
+    JMP krj            ; repete ciclo se tecla premida
 
 ciclo_fim:
     SHR R6, 1          ; define a linha como a prévia
