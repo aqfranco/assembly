@@ -20,7 +20,7 @@ ciclo:
     MOV  R1, 0
     MOVB [R4], R1      ; escreve linha e coluna a zero nos displays
 
-krj:
+detecta_tecla:
     MOV  R1, R6        ; testar a linha 
     MOVB [R2], R1      ; escrever no periférico de saída (linhas)
     MOVB R0, [R3]      ; ler do periférico de entrada (colunas)
@@ -30,10 +30,11 @@ krj:
     SHL  R1, 4         ; coloca linha no nibble high
     OR   R1, R0        ; junta coluna (nibble low)
     MOVB [R4], R1      ; escreve linha e coluna nos displays
-    JMP krj            ; repete ciclo se tecla premida
+    JMP detecta_tecla  ; repete ciclo se tecla premida
 
 ciclo_fim:
     SHR R6, 1          ; define a linha como a prévia
     CMP R6, 0          ; compara caso a linha seja 0
-    JZ inicio          ; se for, reinicia o valor da linha
-    JMP ciclo          ; se nao, mantem o valor atual da linha
+    JNZ detecta_tecla  ; se nao, mantem o valor atual da linha
+    MOV  R6, 8         ; se for, reinicia o valor da linha
+    JMP ciclo          ; e reinicia o ciclo
